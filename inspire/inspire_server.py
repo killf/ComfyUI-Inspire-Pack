@@ -120,6 +120,9 @@ def prompt_seed_update(json_data):
             value = v['inputs']['value']
             node = k, v
 
+            if isinstance(value, list):
+                value = json_data['prompt'][value[0]]['inputs']['value']    
+
     # control before generated
     if mode is not None and mode:
         value = control_seed(node[1])

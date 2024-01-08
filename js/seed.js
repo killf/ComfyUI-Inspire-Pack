@@ -10,7 +10,7 @@ function globalSeedHandler(event) {
 	        if(node.widgets) {
 			    const w = node.widgets.find((w) => w.name == 'value');
 			    const last_w = node.widgets.find((w) => w.name == 'last_seed');
-			    last_w.value = w.value;
+				if(!Array.isArray(w.value)) last_w.value = w.value;
 			    w.value = event.detail.value;
 	        }
 	    }
@@ -18,7 +18,7 @@ function globalSeedHandler(event) {
             if(node.widgets) {
                 const w = node.widgets.find((w) => (w.name == 'seed' || w.name == 'noise_seed') && w.type == 'number');
                 if(w && event.detail.seed_map[node.id] != undefined) {
-                   w.value = event.detail.seed_map[node.id];
+					if(!Array.isArray(event.detail.seed_map[node.id])) w.value = event.detail.seed_map[node.id];
                 }
             }
 	}
