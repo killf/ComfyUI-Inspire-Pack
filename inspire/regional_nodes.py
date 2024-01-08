@@ -6,6 +6,8 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from . import prompt_support
+from .libs import utils
+
 
 class RegionalPromptSimple:
     @classmethod
@@ -29,6 +31,8 @@ class RegionalPromptSimple:
 
     def doit(self, basic_pipe, mask, cfg, sampler_name, scheduler, wildcard_prompt, controlnet_in_pipe=False):
         if 'RegionalPrompt' not in nodes.NODE_CLASS_MAPPINGS:
+            utils.try_install_custom_node('https://github.com/ltdrdata/ComfyUI-Impact-Pack',
+                                          "To use 'RegionalPromptSimple' node, 'Impact Pack' extension is required.")
             raise Exception(f"[ERROR] To use RegionalPromptSimple, you need to install 'ComfyUI-Impact-Pack'")
 
         model, clip, vae, positive, negative = basic_pipe
@@ -210,6 +214,8 @@ class IPAdapterConditioning:
 
     def doit(self, ipadapter, clip_vision, model):
         if 'IPAdapterApply' not in nodes.NODE_CLASS_MAPPINGS:
+            utils.try_install_custom_node('https://github.com/ltdrdata/ComfyUI-Impact-Pack',
+                                          "To use 'Regional IPAdapter' node, 'Impact Pack' extension is required.")
             raise Exception(f"[ERROR] To use Regional IPAdapter, you need to install 'ComfyUI_IPAdapter_plus'")
 
         obj = nodes.NODE_CLASS_MAPPINGS['IPAdapterApply']

@@ -4,7 +4,7 @@ function globalSeedHandler(event) {
 	let nodes = app.graph._nodes_by_id;
 
 	for(let i in nodes) {
-	    let node = nodes[i];
+		let node = nodes[i];
 
 	    if(node.type == 'GlobalSeed //Inspire') {
 	        if(node.widgets) {
@@ -25,23 +25,3 @@ function globalSeedHandler(event) {
 }
 
 api.addEventListener("inspire-global-seed", globalSeedHandler);
-
-
-const original_queuePrompt = api.queuePrompt;
-async function queuePrompt_with_seed(number, { output, workflow }) {
-	workflow.seed_widgets = {};
-
-	for(let i in app.graph._nodes_by_id) {
-		let widgets = app.graph._nodes_by_id[i].widgets;
-		if(widgets) {
-		    for(let j in widgets) {
-		        if((widgets[j].name == 'seed' || widgets[j].name == 'noise_seed') && widgets[j].type != 'converted-widget')
-		            workflow.seed_widgets[i] = parseInt(j);
-		    }
-        }
-	}
-
-	return await original_queuePrompt.call(api, number, { output, workflow });
-}
-
-api.queuePrompt = queuePrompt_with_seed;

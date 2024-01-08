@@ -1,7 +1,6 @@
 from PIL import Image, ImageDraw, ImageFilter
 import torch
 import numpy as np
-from . import utils
 
 
 def apply_variation_noise(latent_image, noise_device, variation_seed, variation_strength, mask=None):
@@ -147,6 +146,16 @@ def empty_pil_tensor(w=64, h=64):
     draw = ImageDraw.Draw(image)
     draw.rectangle((0, 0, w-1, h-1), fill=(0, 0, 0))
     return pil2tensor(image)
+
+
+def try_install_custom_node(custom_node_url, msg):
+    try:
+        import cm_global
+        cm_global.try_call(api='cm.try-install-custom-node',
+                           sender="Inspire Pack", custom_node_url=custom_node_url, msg=msg)
+    except Exception as e:
+        print(msg)
+        print(f"[Inspire Pack] ComfyUI-Manager is outdated. The custom node installation feature is not available.")
 
 
 def empty_latent():
